@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Notices - MBSTU</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #E0FFFF; }
+        .container { max-width: 800px; margin: 6rem auto; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 1.5rem; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 1rem; background: #f8f9fa; border-radius: 12px; text-align: center; margin-bottom: 1rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Admission Notices</h2>
+    <ul>
+        <li th:each="notice : ${notices}" th:text="${notice}"></li>
+    </ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Admission - MBSTU</title>
+    <style>
+        /* Add your styling here */
+    </style>
+</head>
+<body>
+<!-- Navbar (reuse from your other pages) -->
+<div class="navbar">
+    <div class="icon">
+        <h2><a href="/home">MBSTU</a></h2>
+    </div>
+    <div class="menu">
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/apply-admission">Apply for Admission</a></li>
+            <li><a href="/exam-dates">Exam Dates</a></li>
+            <li><a href="/admission-notices">Notices</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Apply for Admission</h2>
+    <p>Select a faculty to view notices:</p>
+    <ul>
+        <li><a href="/faculty-notices?faculty=engineering">Engineering Faculty</a></li>
+        <li><a href="/faculty-notices?faculty=life-science">Life Science Faculty</a></li>
+        <li><a href="/faculty-notices?faculty=business-studies">Business Studies Faculty</a></li>
+        <li><a href="/faculty-notices?faculty=arts">Arts Faculty</a></li>
+        <li><a href="/faculty-notices?faculty=social-science">Social Science Faculty</a></li>
+        <li><a href="/faculty-notices?faculty=science">Science Faculty</a></li>
+    </ul>
+</div>
+
+</body>
+</html>

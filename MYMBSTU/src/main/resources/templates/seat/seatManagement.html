@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Information - MBSTU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(#E0FFFF, #E0FFFF, #E0FFFF 100%);
+            min-height: 100vh;
+        }
+        .navbar {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover {
+            color: #00CED1;
+            background: rgba(0,206,209,0.1);
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white!important;
+            padding: 0.5rem 1.5rem!important;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        .logout-btn:hover {
+            background: #c82333!important;
+            color: white!important;
+        }
+        .seat-container {
+            max-width: 800px;
+            margin: 6rem auto 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .info-item {
+            padding: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .info-item strong {
+            display: block;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .info-item span {
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        .status-pending { color: #ffc107; font-weight: 600; }
+        .status-assigned { color: #28a745; font-weight: 600; }
+        .action-panel {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        .action-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #00CED1;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <a href="/home" class="nav-brand">MYMBSTU</a>
+    <div class="nav-links">
+        <a href="/home">Home</a>
+        <a href="/contact">Contact</a>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div class="seat-container">
+    <h1 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">
+        Seat Allocation Details
+    </h1>
+
+    <div class="info-grid">
+        <!-- Personal Information -->
+        <div class="info-item">
+            <strong>Full Name</strong>
+            <span th:text="${user.username}"></span>
+        </div>
+        <div class="info-item">
+            <strong>Department</strong>
+            <span th:text="${user.department}"></span>
+        </div>
+
+        <!-- Academic Details -->
+        <div class="info-item">
+            <strong>Academic Session</strong>
+            <span th:text="${seat.sessionId}"></span>
+        </div>
+        <div class="info-item">
+            <strong>Hall Name</strong>
+            <span th:text="${seat.hallName}"></span>
+        </div>
+
+        <!-- Allocation Details -->
+        <div class="info-item">
+            <strong>Room Number</strong>
+            <span th:classappend="${seat.roomNumber == 'Pending'} ? 'status-pending' : 'status-assigned'"
+                  th:text="${seat.roomNumber}"></span>
+        </div>
+        <div class="info-item">
+            <strong>Seat Number</strong>
+            <span th:classappend="${seat.seatNumber == 'Pending'} ? 'status-pending' : 'status-assigned'"
+                  th:text="${seat.seatNumber}"></span>
+        </div>
+
+        <!-- Dates -->
+        <div class="info-item">
+            <strong>Allocation Date</strong>
+            <span th:text="${seat.allocationDate}"></span>
+        </div>
+        <div class="info-item">
+            <strong>Expiry Date</strong>
+            <span th:text="${seat.expiryDate}"></span>
+        </div>
+    </div>
+
+    <div class="action-panel">
+        <select class="action-select" id="applyFor" onchange="handleApplyForChange()">
+            <option value="">Select Application Type</option>
+            <option value="/token">Collect Hall Token</option>
+            <option value="/applySeat">New Seat Application</option>
+            <option value="/applyID">ID Card Services</option>
+            <option value="/applyAttestation">Attestation Paper</option>
+            <option value="/applyLostCertificate">Lost Certificate</option>
+        </select>
+    </div>
+</div>
+
+<script>
+    function handleApplyForChange() {
+        const selection = document.getElementById("applyFor").value;
+        if (selection) window.location.href = selection;
+    }
+</script>
+</body>
+</html>

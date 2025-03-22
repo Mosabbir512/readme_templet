@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyMBSTU - গুরুত্বপূর্ণ তারিখ</title>
+  <!-- Include Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* Navbar Styles */
+    .navbar {
+      width: 100%;
+      padding: 1rem 2rem;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      z-index: 800;
+    }
+    .nav-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: 500;
+      transition: color 0.3s;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+    .nav-links a:hover {
+      color: #00CED1;
+      background: rgba(0,206,209,0.1);
+    }
+    .logout-btn {
+      background: none;
+      border: none;
+      color: #2c3e50;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    .logout-btn:hover {
+      color: #00CED1;
+      background: rgba(0,206,209,0.1);
+    }
+
+    /* Body and Container Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      padding-top: 80px; /* To account for the fixed navbar */
+    }
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 200px;
+      background: #004080;
+      color: white;
+      padding: 20px;
+      position: fixed;
+      height: calc(100vh - 80px); /* Adjust height to fit below navbar */
+    }
+    .sidebar .logo img {
+      width: 100%;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      padding: 10px 0;
+    }
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center; /* Align icon and text vertically */
+      gap: 10px; /* Add space between icon and text */
+    }
+    .dropdown-content {
+      display: none;
+      padding-left: 20px;
+    }
+    .dropdown-content a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 5px 0;
+    }
+    .dropdown-content a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+      background: white;
+      margin-left: 250px; /* Adjust margin to account for the sidebar */
+      margin-top: 20px; /* Add some space below the navbar */
+    }
+    .steps-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .step {
+      flex: 1;
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+    }
+    .step h3 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+    .step ul {
+      list-style: none;
+      padding: 0;
+    }
+    .step-1 { background: #d9534f; }
+    .step-2 { background: #f0ad4e; }
+    .step-3 { background: #5bc0de; }
+    .step-4 { background: #5cb85c; }
+    .step-5 { background: #0275d8; }
+    h2 {
+      color: #004080;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #004080;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="/home" class="nav-brand">MYMBSTU</a>
+  <div class="nav-links">
+    <a href="/home">Home</a>
+    <a href="/contact">Contact</a>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+  </div>
+</nav>
+
+<!-- Main Container -->
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="logo.png" alt="University Logo">
+    </div>
+    <div>
+      <ul>
+        <li>
+          <a href="#" onclick="toggleDropdown('notices')">
+            <i class="material-icons">notifications</i> <!-- Material Icon -->
+            নোটিশ সমূহ
+          </a>
+          <div id="notices" class="dropdown-content">
+<!--            <a href="science.html" target="_blank">বিজ্ঞান ইউনিট</a>-->
+            <a href="/science" target="_blank">বিজ্ঞান ইউনিট</a>
+            <a href="#" onclick="openFacultyPage('arts')">কলা অনুষদ</a>
+            <a href="#" onclick="openFacultyPage('commerce')">বাণিজ্য অনুষদ</a>
+            <a href="#" onclick="openFacultyPage('engineering')">প্রকৌশল অনুষদ</a>
+            <a href="#" onclick="openFacultyPage('law')">আইন অনুষদ</a>
+            <a href="#" onclick="openFacultyPage('social-science')">সামাজিক বিজ্ঞান অনুষদ</a>
+          </div>
+        </li>
+        <li><a href="#">বিশ্ববিদ্যালয় তথ্য</a></li>
+        <li><a href="#">Apply for Admission</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- আবেদনের ধাপসমূহ -->
+    <div class="steps-container">
+      <div class="step step-1">
+        <h3>০১ লগইন</h3>
+        <ul>
+          <li>উচ্চ মাধ্যমিক: রোল, বোর্ড</li>
+          <li>মাধ্যমিক: রোল</li>
+        </ul>
+      </div>
+      <div class="step step-2">
+        <h3>০২ বিস্তারিত</h3>
+        <ul>
+          <li>প্রথম ও দ্বিতীয় ভাষা নির্বাচন</li>
+          <li>বর্তমান ঠিকানা</li>
+          <li>মোবাইল নম্বর, ই-মেইল</li>
+          <li>পিতামাতার তথ্য</li>
+          <li>কোটা (যদি প্রযোজ্য হয়)</li>
+        </ul>
+      </div>
+      <div class="step step-3">
+        <h3>০৩ ছবি</h3>
+        <ul>
+          <li>প্রস্থ ৪৮০-৬৩০ পিক্সেল</li>
+          <li>উচ্চতা ৬০০-৮৩০ পিক্সেল</li>
+          <li>টাইপ: .jpg or .jpeg</li>
+        </ul>
+      </div>
+      <div class="step step-4">
+        <h3>০৪ পাসওয়ার্ড</h3>
+        <ul>
+          <li>SMS এর মাধ্যমে পাসওয়ার্ড</li>
+        </ul>
+      </div>
+      <div class="step step-5">
+        <h3>০৫ ফি প্রদান</h3>
+        <ul>
+          <li>মোবাইল ব্যাংকিং</li>
+          <li>ডেবিট/ক্রেডিট কার্ড</li>
+          <li>সোনালী, অগ্রণী, জনতা, রুপালী ব্যাংক</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- গুরুত্বপূর্ণ তারিখসমূহ -->
+    <h2>গুরুত্বপূর্ণ তারিখসমূহ</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>ইউনিট</th>
+        <th>বিষয়</th>
+        <th>তারিখ ও সময়</th>
+        <th>ইভেন্টের অবস্থা</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>বিজ্ঞান ইউনিট</td>
+        <td>আবেদন ও ফি প্রদান</td>
+        <td>4 November 2024 12:00 PM - 27 November 2024 11:59 PM</td>
+        <td>সময় শেষ হয়েছে</td>
+      </tr>
+      <tr>
+        <td>বিজ্ঞান ইউনিট</td>
+        <td>পরীক্ষার সময়</td>
+        <td>15 February 2025 11:00 AM - 15 February 2025 12:30 PM</td>
+        <td>সময় শেষ হয়েছে</td>
+      </tr>
+      <tr>
+        <td>কলা, আইন ও সামাজিক বিজ্ঞান ইউনিট</td>
+        <td>পরীক্ষার সময়</td>
+        <td>25 January 2025 11:00 AM - 25 January 2025 12:30 PM</td>
+        <td>সময় শেষ হয়েছে</td>
+      </tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<script>
+  function toggleDropdown(id) {
+    var dropdown = document.getElementById(id);
+    if (dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+    } else {
+      dropdown.style.display = "block";
+    }
+  }
+
+  function openFacultyPage(faculty) {
+    var facultyPages = {
+      'science': 'science.html',
+      'arts': 'arts.html',
+      'commerce': 'commerce.html',
+      'engineering': 'engineering.html',
+      'law': 'law.html',
+      'social-science': 'social-science.html'
+    };
+    window.open(facultyPages[faculty], '_blank');
+  }
+</script>
+</body>
+</html>
